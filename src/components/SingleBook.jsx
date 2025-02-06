@@ -21,7 +21,7 @@ class SingleBook extends Component {
             className="img-fluid"
             src={this.props.img}
             onClick={() => {
-              this.setState({ selected: true });
+              this.setState({ selected: !this.state.selected });
             }}
           />
           <Card.Body>

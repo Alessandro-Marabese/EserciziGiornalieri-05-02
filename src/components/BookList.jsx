@@ -1,10 +1,9 @@
-import { Row, Container, Form, Button } from "react-bootstrap";
+import { Row, Container, Form } from "react-bootstrap";
 import SingleBook from "./SingleBook";
 import { Component } from "react";
 
 class BookList extends Component {
   state = {
-    selected: false,
     search: "",
   };
 
@@ -13,11 +12,6 @@ class BookList extends Component {
       ...this.state,
       [key]: value,
     });
-  };
-
-  buttonSearch = (event) => {
-    event.preventDefault();
-    //let searchResult = this.state.search;
   };
 
   render() {
@@ -31,17 +25,17 @@ class BookList extends Component {
               placeholder="Search"
               name="search"
               id="search"
+              value={this.state.search}
               onChange={(e) => this.updateSearch("search", e.target.value)}
             />
-            <Button type="submit" variant="outline-success">
-              Search
-            </Button>
           </Form.Group>
         </Form>
         <Row>
-          {this.props.category.fantasy.map((book) => {
-            return <SingleBook key={`book-${book.asin}`} img={book.img} title={book.title} price={book.price} />;
-          })}
+          {this.props.category.fantasy
+            .filter((book) => book.title.toLowerCase().includes(this.state.search.toLowerCase()))
+            .map((book) => {
+              return <SingleBook key={`book-${book.asin}`} img={book.img} title={book.title} price={book.price} />;
+            })}
         </Row>
       </Container>
     );
